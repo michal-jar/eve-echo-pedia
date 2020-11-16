@@ -1,212 +1,31 @@
-<script src="https://unpkg.com/vue@next"></script>
-
-<div id="eve-echoes">
-    <ul>
-        <li v-for="system in systems">
-            {{ system.name }} ({{ system.securityLevel }})
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>EVE Echoes - Pedia</title>
+        <!-- Import Styles -->
+        <!-- Import Vue.js -->
+        <script src="https://unpkg.com/vue@next"></script>
+    </head>
+    <body>
+        <div id="eve-echoes">
+            <input v-model="search" placeholder="System name">
             <ul>
-                <li>Stations: {{ system.stations }} {{ system.stations > 0 && system.interstellarTradingCenter ? '(ITC)' : '' }}</li>
-                <li>Mining: {{ system.miningLevel > 0 ? system.miningLevel : 'no mining' }}</li>
-                <li>Cosmic Anomaly: {{ system.cosmicAnomaliesLevel > 0 ? system.cosmicAnomaliesLevel : 'no anomalies' }}</li>
-                <li>Planets: {{ system.planets.length }}
-                    <ul>
-                        <li v-for="planet in system.planets">
-                            {{ planet.hasOwnProperty('name') ? planet.name : planet }}{{ planet.hasOwnProperty('subName') ? ' (' + planet.subName + ')' : '' }}<br/>
-                            ({{ planet.type }})
-                            <ul>
-                                <li v-for="resource in planet.mining">
-                                    {{ resource.name }} - {{ resource.quality }}
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li>Stargates: {{ system.stargates.length }}
-                    <ul>
-                        <li v-for="gate in system.stargates">{{ gate }}</li>
-                    </ul>
+                <li v-for="system in systemsToDisplay">
+                    <star-system-details :system="system"/>
                 </li>
             </ul>
-        </li>
-    </ul>
-</div>
+        </div>
 
-<script>
-    const EveEchoes = {
-        data() {
-            return {
-                "systems": [
-                    {
-                        "name": "Pator",
-                        "securityLevel": 1.0,
-                        "miningLevel": 0,
-                        "cosmicAnomaliesLevel" : 0,
-                        "stations": 5,
-                        "interstellarTradingCenter": true,
-                        "planets": [
-                            {
-                                "name": "Pator I",
-                                "subName": "Istinn",
-                                "type": "Lava Plannet",
-                                "mining": [
-                                    {
-                                        "name": "Molten Compound",
-                                        "quality": "Perfect"
-                                    },
-                                    {
-                                        "name": "Polyaramids",
-                                        "quality": "Medium"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator II",
-                                "subName": "Belogor",
-                                "type": "Barren Planet",
-                                "mining": [
-                                    {
-                                        "name": "Lustering Alloy",
-                                        "quality": "Medium"
-                                    },
-                                    {
-                                        "name": "Base Metals",
-                                        "quality": "Poor"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator III",
-                                "subName": "Huggar",
-                                "type": "Temperate Planet",
-                                "mining": [
-                                    {
-                                        "name": "Industial Fibers",
-                                        "quality": "Rich"
-                                    },
-                                    {
-                                        "name": "Condensates",
-                                        "quality": "Rich"
-                                    },
-                                    {
-                                        "name": "Heavy Watter",
-                                        "quality": "Rich"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator IV",
-                                "subName": "Matar",
-                                "type": "Temperate Planet",
-                                "mining": [
-                                    {
-                                        "name": "Condensed Alloy",
-                                        "quality": "Medium"
-                                    },
-                                    {
-                                        "name": "Noble Metals",
-                                        "quality": "Medium"
-                                    },
-                                    {
-                                        "name": "Heavy Watter",
-                                        "quality": "Rich"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator V",
-                                "subName": "Vakir",
-                                "type": "Storm Planet",
-                                "mining": [
-                                    {
-                                        "name": "Reactive Metals",
-                                        "quality": "Medium"
-                                    },
-                                    {
-                                        "name": "Suspended Plasma",
-                                        "quality": "Medium"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator VI",
-                                "subName": "Varkal",
-                                "type": "Barren Planet",
-                                "mining": [
-                                    {
-                                        "name": "Lustering Alloy",
-                                        "quality": "Poor"
-                                    },
-                                    {
-                                        "name": "Base Metals",
-                                        "quality": "Poor"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator VII",
-                                "subName": "Kulheim",
-                                "type": "Barren Planet",
-                                "mining": [
-                                    {
-                                        "name": "Lustering Alloy",
-                                        "quality": "Poor"
-                                    },
-                                    {
-                                        "name": "Base Metals",
-                                        "quality": "Poor"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator VIII",
-                                "subName": "Orinn",
-                                "type": "Storm Planet",
-                                "mining": [
-                                    {
-                                        "name": "Suspended Plasma",
-                                        "quality": "Medium"
-                                    },
-                                    {
-                                        "name": "Oxygen Isotopes",
-                                        "quality": "Poor"
-                                    }
-                                ]
-                            },
-                            {
-                                "name": "Pator IX",
-                                "subName": "Syld",
-                                "type": "Oceanic Planet",
-                                "mining": [
-                                    {
-                                        "name": "Condensed Alloy",
-                                        "quality": "Rich"
-                                    },
-                                    {
-                                        "name": "Polyaramids",
-                                        "quality": "Rich"
-                                    },
-                                    {
-                                        "name": "Heavy Watter",
-                                        "quality": "Poor"
-                                    }
-                                ]
-                            }
-                        ],
-                        "stargates": [ "Onga", "Lustervik", "Ammold", "Eystur" ]
-                    },
-                    {
-                        "name": "Dammalin",
-                        "securityLevel": 0.5,
-                        "miningLevel": 4,
-                        "cosmicAnomaliesLevel" : 4,
-                        "stations": 3,
-                        "interstellarTradingCenter": false,
-                        "planets": [ "Dammalin I", "Dammalin II" ],
-                        "stargates": [ "Alakgur", "Bosboger", "Oifeim" ]
-                    }
-                ]
-            }
-        }
-    }
-    Vue.createApp(EveEchoes).mount('#eve-echoes')
-</script>
+        <!-- Import App -->
+        <script src="./main.js"></script>
+        <!-- Import Components -->
+        <script src="./components/StarSystemDetails.js"></script>
+        <script src="./components/PlanetDetails.js"></script>
+
+        <!-- Mount App -->
+        <script>
+            const mountedApp = app.mount('#eve-echoes')
+        </script>
+    </body>
+</html>
