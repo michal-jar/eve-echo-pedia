@@ -5,6 +5,7 @@ app.component('star-system-details', {
             required: true
         }
     },
+    emits: ['newStargate'],
     template:
     /*html*/
     `<span>{{ system.name }} ({{ system.securityLevel }})</span>
@@ -12,8 +13,11 @@ app.component('star-system-details', {
         <li>
             <span @click="select('stargates')">Stargates: {{ system.stargates.length }}</span>
             <ul v-if="selected === 'stargates'">
-                <li v-for="gate in system.stargates">
-                    <span>{{ gate }}</span>
+                <li v-for="stargate in system.stargates">
+                    <span>{{ stargate }}</span>
+                </li>
+                <li>
+                    <input v-model="newStargate" placeholder="System name"/><button @click="addStargate">Add</button>
                 </li>
             </ul>
         </li>
@@ -37,7 +41,8 @@ app.component('star-system-details', {
     </ul>`,
     data() {
         return {
-            "selected": ""
+            "selected": "",
+            "newStargate": ""
         }
     },
     methods: {
@@ -46,6 +51,12 @@ app.component('star-system-details', {
                 this.selected = ''
             } else {
                 this.selected = selection
+            }
+        },
+        addStargate() {
+            if (this.newStargate.trim().length > 0) {
+                this.$emit("newStargate", this.system.name, this.newStargate.trim())
+                this.newStargate = ""
             }
         }
     }

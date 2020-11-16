@@ -178,5 +178,16 @@ const app = Vue.createApp({
         systemsToDisplay() {
             return this.systems.filter(system => this.search === '' || system.name.toUpperCase().search(this.search.toUpperCase()) > -1 )
         }
+    },
+    methods: {
+        newStargate(from, to) {
+            this.systems.forEach(system => {
+                if (system.name === from && system.stargates.indexOf(to) == -1 ) {
+                    system.stargates.push(to)
+                } else if (system.name === to && system.stargates.indexOf(from) == -1) {
+                    system.stargates.push(from)
+                }
+            })
+        }
     }
 })

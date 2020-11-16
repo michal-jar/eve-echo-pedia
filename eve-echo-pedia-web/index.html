@@ -12,7 +12,7 @@
             <input v-model="search" placeholder="System name">
             <ul>
                 <li v-for="system in systemsToDisplay">
-                    <star-system-details :system="system"/>
+                    <star-system-details :system="system" @new-stargate="newStargate"/>
                 </li>
             </ul>
         </div>
