@@ -2,6 +2,8 @@ const app = Vue.createApp({
     data() {
         return {
             "search": "",
+            "newSystemName": "",
+            "newSystemSecurityLevel": "",
             "systems": [
                 {
                     "name": "Pator",
@@ -180,12 +182,55 @@ const app = Vue.createApp({
         }
     },
     methods: {
-        newStargate(from, to) {
+        addSystem() {
+            if (this.newSystemName.trim().length > 0 && /^[-]?[01][.,]\d$/.test(this.newSystemSecurityLevel)) {
+                this.systems.push({
+                    "name": this.newSystemName,
+                    "securityLevel": parseFloat(this.newSystemSecurityLevel),
+                    "miningLevel": undefined,
+                    "cosmicAnomaliesLevel" : undefined,
+                    "stations": undefined,
+                    "interstellarTradingCenter": false,
+                    "planets": [],
+                    "stargates": []
+                })
+                this.newSystemName = ""
+                this.newSystemSecurityLevel = ""
+            }
+        },
+        removeSystem(name) {
+            const index = this.systems.findIndex(system => system.name === name)
+            if (index > -1) {
+                this.systems.splice(index, 1)
+            }
+            this.systems.forEach(system => {
+                const index = system.stargates.indexOf(name)
+                if (index > -1 ) {
+                    system.stargates.splice(index, 1)
+                }
+            })
+        },
+        addStargate(from, to) {
             this.systems.forEach(system => {
                 if (system.name === from && system.stargates.indexOf(to) == -1 ) {
                     system.stargates.push(to)
                 } else if (system.name === to && system.stargates.indexOf(from) == -1) {
                     system.stargates.push(from)
+                }
+            })
+        },
+        removeStargate(from, to) {
+            this.systems.forEach(system => {
+                if (system.name === from) {
+                    const index = system.stargates.indexOf(to)
+                    if (index > -1 ) {
+                        system.stargates.splice(index, 1)
+                    }
+                } else if (system.name === to) {
+                    const index = system.stargates.indexOf(from)
+                    if (index > -1 ) {
+                        system.stargates.splice(index, 1)
+                    }
                 }
             })
         }

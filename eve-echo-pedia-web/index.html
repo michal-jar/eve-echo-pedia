@@ -12,7 +12,10 @@
             <input v-model="search" placeholder="System name">
             <ul>
                 <li v-for="system in systemsToDisplay">
-                    <star-system-details :system="system" @new-stargate="newStargate"/>
+                    <star-system-details :system="system" @remove-system="removeSystem" @add-stargate="addStargate" @remove-stargate="removeStargate"/>
+                </li>
+                <li>
+                    <input v-model="newSystemName" placeholder="System name"/><input v-model="newSystemSecurityLevel" placeholder="Security level"/><button @click="addSystem">Add</button>
                 </li>
             </ul>
         </div>
